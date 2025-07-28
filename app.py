@@ -95,13 +95,16 @@ def user_input(user_question):
     """Process user input and return response."""
     if is_general_comment(user_question):
         return "You're welcome! I'm here to help you with any questions you have."
-    
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-    new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
-    docs = new_db.similarity_search(user_question)
-    chain = get_conversational_chain()
 
-    response = chain.invoke({"input_documents": docs, "question": user_question}, return_only_outputs=True)
+    if "vector_store" not in st.session_state:
+        embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        st.session_state.vector_store = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
+
+    if "qa_chain" not in st.session_state:
+        st.session_state.qa_chain = get_conversational_chain()
+
+    docs = st.session_state.vector_store.similarity_search(user_question)
+    response = st.session_state.qa_chain.invoke({"input_documents": docs, "question": user_question}, return_only_outputs=True)
     return response["output_text"]
 
 # Main Streamlit app
