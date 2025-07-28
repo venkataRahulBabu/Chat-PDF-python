@@ -5,5 +5,7 @@ langchain
 PyPDF2
 chromadb
 faiss-cpu
-langchain_google_genai
+langchain-google-genai
 langchain-community
+python-docx
+python-pptx
