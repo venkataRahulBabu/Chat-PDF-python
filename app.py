@@ -106,7 +106,7 @@ def user_input(user_question):
 
 # Main Streamlit app
 def main():
-    st.set_page_config("Chat Files", layout="wide")
+    st.set_page_config("Chat With Files", layout="wide")
     st.header("Chat with Files")
 
     if "conversation" not in st.session_state:
