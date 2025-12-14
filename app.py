@@ -12,10 +12,21 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores.faiss import FAISS
 from dotenv import load_dotenv
+import time
 
 load_dotenv()
 os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+# Simple keep-alive indicator
+def health_check():
+    return {
+        "status": "ok",
+        "timestamp": time.time()
+    }
+# Call the health endpoint to keep alive the application.
+health = health_check()
+
 
 # Helper functions
 def extract_text_from_pdf(file):

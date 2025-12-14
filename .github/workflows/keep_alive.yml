@@ -1,0 +1,13 @@
+name: Keep Streamlit app alive
+
+on:
+  schedule:
+    - cron: "*/14 * * * *"
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render service
+        run: |
+          curl -s https://chat-pdf-python.onrender.com > /dev/null
